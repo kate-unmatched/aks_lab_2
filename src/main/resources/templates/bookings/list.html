@@ -1,47 +1,63 @@
-<th:block th:replace="fragments/header :: body"></th:block>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<h2 th:text="'Bookings for room: ' + ${room.name}"></h2>
+<head th:replace="fragments/header :: header('Bookings')"></head>
 
-<form th:action="@{'/rooms/' + ${room.id} + '/bookings/create'}"
-      method="post"
-      th:object="${newBooking}"
-      class="border p-3 mb-4">
+<body>
+<div class="container mt-4">
 
-    <h4>Create booking</h4>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">
+            Bookings for room: <span th:text="${room.roomName}"></span>
+        </h2>
 
-    <div class="mb-3">
-        <label>User name</label>
-        <input th:field="*{userName}" class="form-control">
+        <a th:href="@{|/rooms/${room.id}/bookings/create|}" class="btn btn-primary">
+            ➕ Create Booking
+        </a>
     </div>
 
-    <div class="mb-3">
-        <label>Start</label>
-        <input type="datetime-local" th:field="*{startTime}" class="form-control">
-    </div>
+    <table class="table table-striped table-bordered align-middle shadow-sm">
+        <thead class="table-light">
+        <tr>
+            <th>#</th>
+            <th>Booked By</th>
+            <th>Start</th>
+            <th>End</th>
+            <th width="120">Actions</th>
+        </tr>
+        </thead>
 
-    <div class="mb-3">
-        <label>End</label>
-        <input type="datetime-local" th:field="*{endTime}" class="form-control">
-    </div>
+        <tbody>
+        <tr th:each="b : ${bookings}">
+            <td th:text="${b.id}"></td>
+            <td th:text="${b.bookedBy}"></td>
+            <td th:text="${#temporals.format(b.startTime, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#temporals.format(b.endTime, 'yyyy-MM-dd HH:mm')}"></td>
 
-    <button class="btn btn-primary">Book</button>
-</form>
+            <td>
+                <form th:action="@{|/rooms/${room.id}/bookings/${b.id}/delete|}" method="post">
+                    <button class="btn btn-sm btn-danger"
+                            onclick="return confirm('Cancel this booking?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>User</th>
-        <th>Start</th>
-        <th>End</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="b : ${bookings}">
-        <td th:text="${b.userName}"></td>
-        <td th:text="${#temporals.format(b.startTime, 'yyyy-MM-dd HH:mm')}"></td>
-        <td th:text="${#temporals.format(b.endTime, 'yyyy-MM-dd HH:mm')}"></td>
-    </tr>
-    </tbody>
-</table>
+        <tr th:if="${bookings.size() == 0}">
+            <td colspan="5" class="text-center text-muted py-4">
+                No bookings yet.
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-<th:block th:replace="fragments/footer :: body"></th:block>
+    <a th:href="@{|/workspaces/${room.workspace.id}/rooms|}" class="btn btn-secondary mt-3">
+        ← Back to Rooms
+    </a>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

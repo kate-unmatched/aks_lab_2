@@ -9,7 +9,11 @@
     <h2 class="fw-bold" th:text="'Rooms in ' + ${workspace.name}"></h2>
 
     <a th:href="@{|/workspaces/${workspace.id}/rooms/create|}" class="btn btn-primary my-3">
-        ➕ Add Room
+        Add Room
+    </a>
+
+    <a href="/workspaces/list" class="btn btn-secondary my-3">
+        ← Back to Workspaces
     </a>
 
     <div class="row g-4">
@@ -31,6 +35,11 @@
                         <a th:href="@{|/workspaces/${workspace.id}/rooms/${room.id}/edit|}"
                            class="btn btn-outline-secondary btn-sm">
                             Edit
+                        </a>
+
+                        <a th:href="@{|/rooms/${room.id}/bookings|}"
+                           class="btn btn-outline-primary btn-sm">
+                            Bookings
                         </a>
 
                         <form th:action="@{|/workspaces/${workspace.id}/rooms/${room.id}/delete|}" method="post">

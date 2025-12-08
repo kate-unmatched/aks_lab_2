@@ -30,20 +30,19 @@
                     </p>
 
                     <div class="d-flex justify-content-between">
-                        <div class="d-flex justify-content-between mb-2">
-                            <a th:href="@{|/workspaces/${ws.id}/rooms|}" class="btn btn-outline-primary btn-sm w-100 me-1">
-                                Rooms
-                            </a>
-                        </div>
+                        <a th:href="@{|/workspaces/${ws.id}/rooms|}"
+                           class="btn btn-outline-primary btn-sm btn-action">
+                            Rooms
+                        </a>
 
                         <a th:href="@{|/workspaces/${ws.id}/edit|}"
-                           class="btn btn-outline-secondary btn-sm">
+                           class="btn btn-outline-secondary btn-sm btn-action">
                             Edit
                         </a>
 
                         <form th:action="@{|/workspaces/${ws.id}|}" method="post">
                             <input type="hidden" name="_method" value="delete"/>
-                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                            <button class="btn btn-outline-danger btn-sm btn-action">Delete</button>
                         </form>
                     </div>
                 </div>
