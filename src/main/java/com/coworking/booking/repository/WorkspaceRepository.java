@@ -1,9 +1,6 @@
 package com.coworking.booking.repository;
 
-import com.coworking.booking.model.Workspace;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.coworking.booking.entity.Workspace;
 
-@Repository
-public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
+public interface WorkspaceRepository extends BaseRepository<Workspace, Long> {
 }

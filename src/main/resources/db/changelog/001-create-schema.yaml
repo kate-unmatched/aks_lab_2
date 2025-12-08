@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: 001
-      author: Ekaterina Marchenko
-      changes:
-        - sql:
-            sql: |
-              CREATE SCHEMA IF NOT EXISTS workspace;

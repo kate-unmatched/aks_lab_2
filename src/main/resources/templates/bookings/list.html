@@ -1,0 +1,47 @@
+<th:block th:replace="fragments/header :: body"></th:block>
+
+<h2 th:text="'Bookings for room: ' + ${room.name}"></h2>
+
+<form th:action="@{'/rooms/' + ${room.id} + '/bookings/create'}"
+      method="post"
+      th:object="${newBooking}"
+      class="border p-3 mb-4">
+
+    <h4>Create booking</h4>
+
+    <div class="mb-3">
+        <label>User name</label>
+        <input th:field="*{userName}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Start</label>
+        <input type="datetime-local" th:field="*{startTime}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>End</label>
+        <input type="datetime-local" th:field="*{endTime}" class="form-control">
+    </div>
+
+    <button class="btn btn-primary">Book</button>
+</form>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>User</th>
+        <th>Start</th>
+        <th>End</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="b : ${bookings}">
+        <td th:text="${b.userName}"></td>
+        <td th:text="${#temporals.format(b.startTime, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${#temporals.format(b.endTime, 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<th:block th:replace="fragments/footer :: body"></th:block>
