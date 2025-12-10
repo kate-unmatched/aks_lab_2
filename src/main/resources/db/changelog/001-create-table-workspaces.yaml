@@ -12,7 +12,6 @@ databaseChangeLog:
 
       changes:
 
-        # Workspaces
         - createTable:
             tableName: workspaces
             schemaName: coworking

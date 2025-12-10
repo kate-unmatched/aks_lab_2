@@ -17,7 +17,6 @@ public class GlobalExceptionHandler {
 
         model.addAttribute("errorMessage", ex.getMessage());
 
-        // Просто возвращаем страницу ошибки встраиваемого вида
         return "error/inline-error";
     }
 

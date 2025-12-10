@@ -62,7 +62,7 @@
         start.addEventListener("change", () => {
             end.min = start.value;
 
-            // если конец раньше начала — сбрасываем
+            // если конец раньше начала - сбрасываем
             if (end.value && new Date(end.value) <= new Date(start.value)) {
                 end.value = "";
             }
