@@ -32,6 +32,14 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking create(Long roomId, Booking booking) {
 
+        if (booking.getStartTime().isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("Cannot create booking in the past");
+        }
+
+        if (booking.getEndTime().isBefore(booking.getStartTime())) {
+            throw new IllegalStateException("End time must be after start time");
+        }
+
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Room not found: " + roomId));
 

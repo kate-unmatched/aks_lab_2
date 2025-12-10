@@ -1,13 +1,9 @@
-package com.coworking.booking.config;
+package com.coworking.booking.handler;
 
-import com.coworking.booking.entity.Booking;
-import com.coworking.booking.entity.Room;
-import com.coworking.booking.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Slf4j

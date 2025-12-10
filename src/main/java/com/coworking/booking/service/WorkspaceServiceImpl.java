@@ -2,7 +2,6 @@ package com.coworking.booking.service;
 
 import com.coworking.booking.entity.Workspace;
 import com.coworking.booking.repository.WorkspaceRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service

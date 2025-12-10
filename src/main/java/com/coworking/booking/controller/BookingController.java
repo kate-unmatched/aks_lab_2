@@ -7,17 +7,17 @@ import com.coworking.booking.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/rooms/{roomId}/bookings")
-public class BookingController {
+public class BookingController implements BookingControllerApi {
 
     private final BookingService bookingService;
     private final RoomService roomService;
 
-    @GetMapping
+    @Override
     public String list(@PathVariable Long roomId, Model model) {
         Room room = roomService.getById(roomId);
 
@@ -27,12 +27,12 @@ public class BookingController {
         return "bookings/list";
     }
 
-    @GetMapping("/create")
+    @Override
     public String createForm(@PathVariable Long roomId, Model model) {
         Room room = roomService.getById(roomId);
 
         Booking booking = new Booking();
-        booking.setRoom(room); // <--- ВАЖНО!
+        booking.setRoom(room);
 
         model.addAttribute("room", room);
         model.addAttribute("booking", booking);
@@ -40,30 +40,28 @@ public class BookingController {
         return "bookings/create";
     }
 
-    @PostMapping
+    @Override
     public String create(@PathVariable Long roomId,
                          @ModelAttribute Booking booking,
                          Model model) {
 
         Room room = roomService.getById(roomId);
-        booking.setRoom(room); // <--- ОБЯЗАТЕЛЬНО!
+        booking.setRoom(room);
 
         try {
             bookingService.create(roomId, booking);
             return "redirect:/rooms/" + roomId + "/bookings";
-
         } catch (IllegalStateException ex) {
-            // Перехват ошибки бронирования
             model.addAttribute("room", room);
             model.addAttribute("booking", booking);
             model.addAttribute("errorMessage", ex.getMessage());
-
-            return "bookings/create"; // возвращаем обратно на форму
+            return "bookings/create";
         }
     }
 
-    @PostMapping("/{bookingId}/delete")
-    public String delete(@PathVariable Long roomId, @PathVariable Long bookingId) {
+    @Override
+    public String delete(@PathVariable Long roomId,
+                         @PathVariable Long bookingId) {
         bookingService.delete(bookingId);
         return "redirect:/rooms/" + roomId + "/bookings";
     }

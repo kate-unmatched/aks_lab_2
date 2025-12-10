@@ -4,7 +4,6 @@ import com.coworking.booking.entity.Room;
 import com.coworking.booking.entity.Workspace;
 import com.coworking.booking.repository.RoomRepository;
 import com.coworking.booking.repository.WorkspaceRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

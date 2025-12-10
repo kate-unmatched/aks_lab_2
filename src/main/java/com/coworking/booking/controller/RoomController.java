@@ -7,26 +7,23 @@ import com.coworking.booking.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/workspaces/{workspaceId}/rooms")
-public class RoomController {
+public class RoomController implements RoomControllerApi {
 
     private final RoomService roomService;
     private final WorkspaceService workspaceService;
 
-    @GetMapping
-    public String list(@PathVariable Long workspaceId, Model model) {
+    @Override
+    public String list(Long workspaceId, Model model) {
         model.addAttribute("workspace", workspaceService.getById(workspaceId));
         model.addAttribute("rooms", roomService.getRoomsByWorkspace(workspaceId));
         return "rooms/list";
     }
 
-
-    @GetMapping("/create")
-    public String createRoomForm(@PathVariable Long workspaceId, Model model) {
+    @Override
+    public String createRoomForm(Long workspaceId, Model model) {
         Workspace workspace = workspaceService.getById(workspaceId);
 
         Room room = new Room();
@@ -38,8 +35,8 @@ public class RoomController {
         return "rooms/create";
     }
 
-    @PostMapping
-    public String createRoom(@PathVariable Long workspaceId, @ModelAttribute Room room) {
+    @Override
+    public String createRoom(Long workspaceId, Room room) {
         Workspace workspace = workspaceService.getById(workspaceId);
         room.setWorkspace(workspace);
 
@@ -47,9 +44,8 @@ public class RoomController {
         return "redirect:/workspaces/" + workspaceId + "/rooms";
     }
 
-
-    @GetMapping("/{roomId}/edit")
-    public String editForm(@PathVariable Long workspaceId, @PathVariable Long roomId, Model model) {
+    @Override
+    public String editForm(Long workspaceId, Long roomId, Model model) {
         Room room = roomService.getById(roomId);
         Workspace workspace = workspaceService.getById(workspaceId);
 
@@ -59,14 +55,14 @@ public class RoomController {
         return "rooms/edit";
     }
 
-    @PostMapping("/{roomId}/edit")
-    public String edit(@PathVariable Long workspaceId, @PathVariable Long roomId, @ModelAttribute Room room) {
+    @Override
+    public String edit(Long workspaceId, Long roomId, Room room) {
         roomService.updateRoom(workspaceId, roomId, room);
         return "redirect:/workspaces/" + workspaceId + "/rooms";
     }
 
-    @PostMapping("/{roomId}/delete")
-    public String delete(@PathVariable Long workspaceId, @PathVariable Long roomId) {
+    @Override
+    public String delete(Long workspaceId, Long roomId) {
         roomService.deleteRoom(workspaceId, roomId);
         return "redirect:/workspaces/" + workspaceId + "/rooms";
     }
